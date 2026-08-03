@@ -5,8 +5,10 @@ import os
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
+import streamlit as st
 
-load_dotenv()
+#load_dotenv()
+hf_token = st.secrets["HF_TOKEN"]
 
 # ---------------------------------------------------------------
 # 1. Load models (one-time, at import)
@@ -59,7 +61,8 @@ base_value = (
 # ---------------------------------------------------------------
 hf_client = InferenceClient(
     model="meta-llama/Llama-3.1-8B-Instruct",
-    token=os.getenv("HF_TOKEN")
+    token= hf_token
+        #os.getenv("HF_TOKEN")
 )
 
 def to_scalar(x):
