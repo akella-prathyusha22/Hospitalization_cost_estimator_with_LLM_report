@@ -27,22 +27,19 @@ hf_client = InferenceClient(
 # Loading the Random forest model from the Hugging Face Cloud due to its large size        
 
 @st.cache_resource # Keeps the model loaded in memory so it doesn't redownload on every click
-def load_my_model():
-    # 1. Download the file securely from Hugging Face
-    model_path = hf_hub_download(
-        repo_id="Prathyusha22/hospitalization-cost-estimator-random-forest-model", 
-        filename="radom_forest.pkl",
-        token=hf_token 
-    )
-    
-    # 2. Load the downloaded pickle file
-    with open(model_path, "rb") as f:
-        model = pickle.load(f)
+def load_model_from_zip():
+    # 1. Open the zip archive uploaded to your repo
+    with zipfile.ZipFile("random_forest.pkl.zip", "r") as archive:
+        # 2. Open the exact name of the pickle file stored inside the zip
+        # (Replace 'your_model.pkl' with the exact original filename)
+        with archive.open("random_forest.pkl") as f:
+            model = pickle.load(f)
     return model
 
-# Call the cached function
-model = load_my_model()
-st.write("Model loaded successfully from Hugging Face Hub!")
+
+# Call the function in your application
+model = load_model_from_zip()
+st.write("Compressed model loaded and ready from GitHub!")
         
 #Gradient Boost model
 
