@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from model_utils import generate_full_report
+from model-utils import generate_full_report
 
 st.set_page_config(page_title="Hospitalization Cost Estimator", layout="centered")
 st.title("Hospitalization Cost Estimator")
