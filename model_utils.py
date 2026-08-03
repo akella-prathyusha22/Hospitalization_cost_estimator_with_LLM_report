@@ -22,12 +22,20 @@ class DummyLoss:
         pass
 
 
-# Dynamically attach expected classes to our fake module
+def dummy_unpickle(*args, **kwargs):
+    return DummyLoss()
+
+
+# Dynamically attach every possible Kaggle naming convention to our fake module
 mock_loss_module.BinomialDeviance = DummyLoss
 mock_loss_module.MultinomialDeviance = DummyLoss
 mock_loss_module.ExponentialLoss = DummyLoss
 
-# 3. Inject our fake module directly into Python's running environment
+# 💡 FIX: Attach the exact Cython attributes the model error is requesting
+mock_loss_module.CyHalfSquaredError = DummyLoss
+mock_loss_module.__pyx_unpickle_CyHalfSquaredError = dummy_unpickle
+
+# 3. Inject our fully loaded fake module directly into Python's running environment
 sys.modules["_loss"] = mock_loss_module
 
 #load_dotenv()
