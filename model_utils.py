@@ -5,6 +5,7 @@ import os
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
+from huggingface_hub import hf_hub_download
 import streamlit as st
 
 #load_dotenv()
@@ -14,13 +15,32 @@ hf_token = st.secrets["HF_TOKEN"]
 # 1. Load models (one-time, at import)
 # ---------------------------------------------------------------
 
+# Loading the Random forest model from the Hugging Face Cloud due to its large size        
 
+@st.cache_resource # Keeps the model loaded in memory so it doesn't redownload on every click
+def load_my_model():
+    # 1. Download the file securely from Hugging Face
+    model_path = hf_hub_download(
+        repo_id="Prathyusha22/hospitalization-cost-estimator-random-forest-model", 
+        filename="radom_forest.pkl",
+        token=hf_token 
+    )
+    
+    # 2. Load the downloaded pickle file
+    with open(model_path, "rb") as f:
+        model = pickle.load(f)
+    return model
+
+# Call the cached function
+model = load_my_model()
+st.write("Model loaded successfully from Hugging Face Hub!")
         
-with open("models/random_forest.pkl", "rb") as f:
-    rf_model = pickle.load(f)
+#Gradient Boost model
 
 with open("models/gradient_boosting.pkl", "rb") as f:
     gb_model = pickle.load(f)
+
+#Ridge model
 
 with open("models/ridge.pkl", "rb") as f:
     ridge_best = pickle.load(f)
