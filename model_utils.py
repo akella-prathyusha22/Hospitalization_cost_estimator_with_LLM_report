@@ -14,7 +14,7 @@ hf_token = st.secrets["HF_TOKEN"]
 # 1. Load models (one-time, at import)
 # ---------------------------------------------------------------
 
-ridge_best = model_ridge.best_estimator_
+
         
 with open("models/random_forest.pkl", "rb") as f:
     rf_model = pickle.load(f)
@@ -25,6 +25,7 @@ with open("models/gradient_boosting.pkl", "rb") as f:
 with open("models/ridge.pkl", "rb") as f:
     ridge_best = pickle.load(f)
 
+ridge_best = model_ridge.best_estimator_
 ridge_model_only = ridge_best.named_steps["regressor"]
 preprocessor = ridge_best.named_steps["scaler"]
 feature_names = preprocessor.get_feature_names_out()
