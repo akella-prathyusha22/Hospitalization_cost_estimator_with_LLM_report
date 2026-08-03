@@ -8,6 +8,11 @@ from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
 from huggingface_hub import hf_hub_download
 import streamlit as st
+import sys
+from sklearn.ensemble import _gb_losses
+
+# This line is for the streamlit app pickle load: Map the old Kaggle '_loss' reference to the newer '_gb_losses' module structure
+sys.modules["_loss"] = _gb_losses
 
 #load_dotenv()
 hf_token = st.secrets["HF_TOKEN"]
