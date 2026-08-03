@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 import shap
 import os
+import zipfile
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
