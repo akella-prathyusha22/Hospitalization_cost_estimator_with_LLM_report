@@ -3,6 +3,7 @@ import numpy as np
 import shap
 import os
 import zipfile
+import pandas as pd
 from dotenv import load_dotenv
 from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
