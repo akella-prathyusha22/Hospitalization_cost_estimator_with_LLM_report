@@ -9,12 +9,29 @@ from huggingface_hub import notebook_login
 from huggingface_hub import hf_hub_download
 import streamlit as st
 import sys
-from sklearn.ensemble import _gb_losses
+from types import ModuleType
 
-# This line is for the streamlit app pickle load: Map the old Kaggle '_loss' reference to the newer '_gb_losses' module structure
-sys.modules["_loss"] = _gb_losses
+# 1. Create a fake, completely empty '_loss' module namespace in Python's memory
+mock_loss_module = ModuleType("_loss")
+
+
+# 2. Add dummy class structures that older Kaggle gradient boosting models look for
+class DummyLoss:
+
+    def __init__(self, *args, **kwargs):
+        pass
+
+
+# Dynamically attach expected classes to our fake module
+mock_loss_module.BinomialDeviance = DummyLoss
+mock_loss_module.MultinomialDeviance = DummyLoss
+mock_loss_module.ExponentialLoss = DummyLoss
+
+# 3. Inject our fake module directly into Python's running environment
+sys.modules["_loss"] = mock_loss_module
 
 #load_dotenv()
+#Load Hugging Faces token from Streamlit cloud
 hf_token = st.secrets["HF_TOKEN"]
 
 # ---------------------------------------------------------------
