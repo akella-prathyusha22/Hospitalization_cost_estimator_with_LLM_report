@@ -44,7 +44,7 @@ st.write("Compressed model loaded and ready from GitHub!")
         
 #Gradient Boost model
 
-with open("models/gradient_boosting.pkl", "rb") as f:
+with open("models/gradient_boost.pkl", "rb") as f:
     gb_model = pickle.load(f)
 
 #Ridge model
