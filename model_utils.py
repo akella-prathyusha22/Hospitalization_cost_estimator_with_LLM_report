@@ -30,7 +30,7 @@ hf_client = InferenceClient(
 @st.cache_resource # Keeps the model loaded in memory so it doesn't redownload on every click
 def load_model_from_zip():
     # 1. Open the zip archive uploaded to your repo
-    with zipfile.ZipFile("random_forest.zip", "r") as archive:
+    with zipfile.ZipFile("models/random_forest.zip", "r") as archive:
         # 2. Open the exact name of the pickle file stored inside the zip
         # (Replace 'your_model.pkl' with the exact original filename)
         with archive.open("random_forest.pkl") as f:
@@ -39,7 +39,7 @@ def load_model_from_zip():
 
 
 # Call the function in your application
-model = load_model_from_zip()
+rf_model = load_model_from_zip()
 st.write("Compressed model loaded and ready from GitHub!")
         
 #Gradient Boost model
