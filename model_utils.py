@@ -12,7 +12,16 @@ import streamlit as st
 hf_token = st.secrets["HF_TOKEN"]
 
 # ---------------------------------------------------------------
-# 1. Load models (one-time, at import)
+# 1. Hugging Face client
+# ---------------------------------------------------------------
+hf_client = InferenceClient(
+    model="meta-llama/Llama-3.1-8B-Instruct",
+    token= hf_token
+        #os.getenv("HF_TOKEN")
+)
+
+# ---------------------------------------------------------------
+# 2. Load models (one-time, at import)
 # ---------------------------------------------------------------
 
 # Loading the Random forest model from the Hugging Face Cloud due to its large size        
@@ -51,7 +60,7 @@ preprocessor = ridge_best.named_steps["scaler"]
 feature_names = preprocessor.get_feature_names_out()
 
 # ---------------------------------------------------------------
-# 2. Build explainers (one-time, at import)
+# 3. Build explainers (one-time, at import)
 # ---------------------------------------------------------------
 def _load_background_data(sample_size=100):
     # X_train_raw should be saved separately during training, e.g. as a CSV/pickle
@@ -76,15 +85,6 @@ base_value = (
     _get_expected_value(gb_explainer) +
     _get_expected_value(ridge_explainer)
 ) / 3
-
-# ---------------------------------------------------------------
-# 3. Hugging Face client
-# ---------------------------------------------------------------
-hf_client = InferenceClient(
-    model="meta-llama/Llama-3.1-8B-Instruct",
-    token= hf_token
-        #os.getenv("HF_TOKEN")
-)
 
 def to_scalar(x):
     if isinstance(x, np.ndarray):
