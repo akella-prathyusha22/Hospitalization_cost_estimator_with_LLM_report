@@ -82,7 +82,6 @@ with open("models/gradient_boost.pkl", "rb") as f:
 with open("models/ridge.pkl", "rb") as f:
     ridge_best = pickle.load(f)
 
-ridge_best = model_ridge.best_estimator_
 ridge_model_only = ridge_best.named_steps["regressor"]
 preprocessor = ridge_best.named_steps["scaler"]
 feature_names = preprocessor.get_feature_names_out()
