@@ -11,7 +11,7 @@ with st.form("patient_form"):
     #age = st.number_input("Age", min_value=0, max_value=120, value=40)
     # Personal details
     gender = st.selectbox("Gender", ["male", "female"])
-    dob = st.date_input("Your birthday")
+    dob = st.date_input("Your birthday", format="YYYY/MM/DD", min_value=None, max_value=None)
     height = st.number_input("Height (cm)", min_value=10.0, max_value=250.0)
     weight = st.number_input("Weight (kg)", min_value=10.0)
     num_of_children = st.number_input("Number of Children", min_value=0.0)
