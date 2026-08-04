@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import datetime
 import plotly.express as px
 from model_utils import generate_full_report
 
@@ -11,7 +12,7 @@ with st.form("patient_form"):
     #age = st.number_input("Age", min_value=0, max_value=120, value=40)
     # Personal details
     gender = st.selectbox("Gender", ["male", "female"])
-    dob = st.date_input("Your birthday", format="YYYY/MM/DD", min_value=None, max_value=None)
+    dob = st.date_input("Your birthday", format="YYYY/MM/DD", value=datetime.date.today(), min_value=datetime.date(1920, 1, 1), max_value=datetime.date.today())
     height = st.number_input("Height (cm)", min_value=10.0, max_value=250.0)
     weight = st.number_input("Weight (kg)", min_value=10.0)
     num_of_children = st.number_input("Number of Children", min_value=0.0)
