@@ -29,16 +29,13 @@ with st.form("patient_form"):
     any_transplants = st.selectbox("Any Transplants?", ["yes", "no"])
     heart_issues = st.selectbox("Any Heart issues?", ["yes", "no"])
     num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50, value=2)
-
-    # Convert date to a string
-    dob_str = dob.strftime("%Y-%m-%d")
     
     submitted = st.form_submit_button("Estimate Cost")
 
 if submitted:
     new_patient = pd.DataFrame([{
         #"age": age,
-        "dob" : dob_str,
+        "dob" : dob,
         "height": height,
         "weight": weight,
         "children": num_of_children,
