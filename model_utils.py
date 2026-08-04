@@ -9,6 +9,7 @@ from huggingface_hub import InferenceClient
 from huggingface_hub import notebook_login
 from huggingface_hub import hf_hub_download
 import streamlit as st
+import datetime
 import sys
 from types import ModuleType
 
@@ -123,7 +124,25 @@ def to_scalar(x):
 # 4. Core prediction + SHAP function
 # ---------------------------------------------------------------
 def explain_patient(new_patient_df, top_n=10):
+    # Calculate Age
+    dob = str(new_patient_df["dob"])
+    calc_date = pd.to_datetime(dob, format="%Y%m%d") 
+    today = datetime.datetime.now() 
+    diff = today - calc_date
+    new_patient_df["age"] = int(diff.days/365)
+    new_patient_df.drop(columns="dob", inplace=True)
+    
+    # Calculate BMI: 
+    height = pow(new_patient_df["height"]/100, 2) 
+    weight = new_patient_df["weight"] 
+    new_patient_df["bmi"] = weight/height
+    new_patient_df.drop(columns="height", inplace=True)
+    new_patient_df.drop(columns="weight", inplace=True)
+    
+    
     patient_transformed = preprocessor.transform(new_patient_df)
+    print("Transformed patient details: ", patient_transformed)
+    
     if hasattr(patient_transformed, "toarray"):
         patient_transformed = patient_transformed.toarray()
 

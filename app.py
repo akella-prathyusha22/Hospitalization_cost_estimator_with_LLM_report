@@ -8,23 +8,46 @@ st.title("Hospitalization Cost Estimator")
 st.write("Enter patient details to estimate hospitalization cost with an AI-generated explanation.")
 
 with st.form("patient_form"):
-    age = st.number_input("Age", min_value=0, max_value=120, value=40)
-    bmi = st.number_input("BMI", min_value=10.0, max_value=60.0, value=25.0)
-    smoker = st.selectbox("Smoker", ["yes", "no"])
+    #age = st.number_input("Age", min_value=0, max_value=120, value=40)
+    # Personal details
     gender = st.selectbox("Gender", ["male", "female"])
-    region = st.selectbox("Region", ["southeast", "southwest", "northeast", "northwest"])
-    num_lab_procedures = st.number_input("Number of Lab Procedures", min_value=0, max_value=100, value=10)
+    dob = st.date_input("Your birthday")
+    height = st.number_input("Height (cm)", min_value=10.0, max_value=250.0)
+    weight = st.number_input("Weight (kg)", min_value=10.0)
+    num_of_children = st.number_input("Number of Children", min_value=0.0)
+    
+    # Hospital details
+    hospital_tier = st.selectbox("Hospital Tier", ["tier-1", "tier-2", "tier-3"])
+    city_tier = st.selectbox("City Tier", ["tier-1", "tier-2", "tier-3"])
+    state_id = st.selectbox("State ID", ["R1011", "R1012", "R1013"])
+    
+    # Medical history
+    hba1c = st.number_input("HBA1C value for Diatebetes risk assessment", min_value=0.0)
+    smoker = st.selectbox("Smoker", ["yes", "no"])
+    cancer_history = st.selectbox("Any Cancer History?", ["yes", "no"])
+    any_transplants = st.selectbox("Any Transplants?", ["yes", "no"])
+    heart_issues = st.selectbox("Any Heart issues?", ["yes", "no"])
+    num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50, value=2)
 
     submitted = st.form_submit_button("Estimate Cost")
 
 if submitted:
     new_patient = pd.DataFrame([{
-        "age": age,
-        "bmi": bmi,
+        #"age": age,
+        "dob" : dob,
+        "height": height,
+        "weight": weight,
+        "children": num_of_children,
+        "hospital_tier": hospital_tier,
+        "city_tier": city_tier,
+        "state_id": state_id,
+        "hba1c": hba1c,
+        "cancer_history": cancer_history,
+        "any_transplants": any_transplants,
+        "heart_issues": heart_issues,
         "smoker": smoker,
         "gender": gender,
-        "region": region,
-        "num_lab_procedures": num_lab_procedures
+        "numberofmajorsurgeries": num_of_major_surgeries
     }])
 
     with st.spinner("Analyzing patient data and generating report..."):
