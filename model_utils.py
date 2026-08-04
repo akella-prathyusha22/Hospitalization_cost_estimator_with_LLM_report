@@ -10,6 +10,7 @@ from huggingface_hub import notebook_login
 from huggingface_hub import hf_hub_download
 import streamlit as st
 import datetime
+from datetime import date
 import sys
 from types import ModuleType
 
@@ -125,11 +126,13 @@ def to_scalar(x):
 # ---------------------------------------------------------------
 def explain_patient(new_patient_df, top_n=10):
     # Calculate Age
-    dob = str(new_patient_df["dob"])
-    calc_date = pd.to_datetime(dob, format="mixed") 
-    today = datetime.datetime.now() 
-    diff = today - calc_date
-    new_patient_df["age"] = int(diff.days/365)
+    dob = new_patient_df["dob"]
+    #calc_date = pd.to_datetime(dob, format="mixed")
+    today = date.today()
+    age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day)) 
+   # today = datetime.datetime.now() 
+    #diff = today - calc_date
+    new_patient_df["age"] = age
     new_patient_df.drop(columns="dob", inplace=True)
     
     # Calculate BMI: 
