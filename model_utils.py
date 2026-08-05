@@ -124,12 +124,7 @@ def to_scalar(x):
 # ---------------------------------------------------------------
 # 4. Core prediction + SHAP function
 # ---------------------------------------------------------------
-def explain_patient(new_patient_df, top_n=10):
-    missing_cols = set(background_data.columns) - set(new_patient_df.columns)
-    if missing_cols:
-        st.error(f"Missing columns: {missing_cols}")
-        st.write(new_patient_df)
-   
+def explain_patient(new_patient_df, top_n=10):   
     patient_transformed = preprocessor.transform(new_patient_df)
     print("Transformed patient details: ", patient_transformed)
     
