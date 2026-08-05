@@ -9,13 +9,11 @@ st.title("Hospitalization Cost Estimator")
 st.write("Enter patient details to estimate hospitalization cost with an AI-generated explanation.")
 
 with st.form("patient_form"):
-    #age = st.number_input("Age", min_value=0, max_value=120, value=40)
     # Personal details
     gender = st.selectbox("Gender", ["male", "female"])
-    dob = st.date_input("Your birthday", value=datetime.date.today(), min_value=datetime.date(1920, 1, 1), max_value=datetime.date.today())
-    height = st.number_input("Height (cm)", min_value=10.0, max_value=250.0)
-    weight = st.number_input("Weight (kg)", min_value=10.0)
-    num_of_children = st.number_input("Number of Children", min_value=0.0)
+    age = st.number_input("Age", min_value=0, max_value=150)
+    bmi = st.number_input("BMI", min_value=20)
+    num_of_children = st.number_input("Number of Children", min_value=0)
     
     # Hospital details
     hospital_tier = st.selectbox("Hospital Tier", ["tier-1", "tier-2", "tier-3"])
@@ -28,16 +26,14 @@ with st.form("patient_form"):
     cancer_history = st.selectbox("Any Cancer History?", ["yes", "no"])
     any_transplants = st.selectbox("Any Transplants?", ["yes", "no"])
     heart_issues = st.selectbox("Any Heart issues?", ["yes", "no"])
-    num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50, value=2)
+    num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50)
     
     submitted = st.form_submit_button("Estimate Cost")
 
 if submitted:
     new_patient = pd.DataFrame([{
-        #"age": age,
-        "dob" : dob,
-        "height": height,
-        "weight": weight,
+        "age": age,
+        "bmi": bmi,
         "children": num_of_children,
         "hospital_tier": hospital_tier,
         "city_tier": city_tier,
