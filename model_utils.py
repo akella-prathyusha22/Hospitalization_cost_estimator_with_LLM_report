@@ -125,24 +125,11 @@ def to_scalar(x):
 # 4. Core prediction + SHAP function
 # ---------------------------------------------------------------
 def explain_patient(new_patient_df, top_n=10):
-    # Calculate Age
-   # dob = new_patient_df["dob"]
-   # calc_date = pd.to_datetime(dob).dt.date
-    #print(calc_date)
-   # today = date.today()
-   # age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day)) 
-   # today = datetime.datetime.now() 
-    #diff = today - calc_date
-    #new_patient_df["age"] = age
-    #new_patient_df.drop(columns="dob", inplace=True)
+    missing_cols = set(background_data.columns) - set(new_patient_df.columns)
+    if missing_cols:
+        st.error(f"Missing columns: {missing_cols}")
+        st.write(new_patient_df)
     
-    # Calculate BMI: 
-   # height = pow(new_patient_df["height"]/100, 2) 
-   # weight = new_patient_df["weight"] 
-   # new_patient_df["bmi"] = weight/height
-    #new_patient_df.drop(columns="height", inplace=True)
-   # new_patient_df.drop(columns="weight", inplace=True)
-    st.write(new_patient_df)
     patient_transformed = preprocessor.transform(new_patient_df)
     print("Transformed patient details: ", patient_transformed)
     

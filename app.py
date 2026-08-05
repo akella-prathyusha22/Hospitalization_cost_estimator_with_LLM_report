@@ -32,18 +32,21 @@ with st.form("patient_form"):
 
 if submitted:
     new_patient = pd.DataFrame([{
-        "age": age,
+        "Age": age,
         "bmi": bmi,
         "children": num_of_children,
         "hospital_tier": hospital_tier,
         "city_tier": city_tier,
+        "state_id_R1011" : ,
+        "state_id_R1012": ,
+        "state_id_R1013": ,
         "state_id": state_id,
         "hba1c": hba1c,
         "cancer_history": cancer_history,
         "any_transplants": any_transplants,
         "heart_issues": heart_issues,
         "smoker": smoker,
-        "gender": gender,
+        "Gender": gender,
         "numberofmajorsurgeries": num_of_major_surgeries
     }])
 
