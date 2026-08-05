@@ -127,7 +127,8 @@ def to_scalar(x):
 def explain_patient(new_patient_df, top_n=10):
     # Calculate Age
     dob = new_patient_df["dob"]
-    #calc_date = pd.to_datetime(dob, format="mixed")
+    calc_date = pd.to_datetime(dob).dt.date
+    print(calc_date)
     today = date.today()
     age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day)) 
    # today = datetime.datetime.now() 
