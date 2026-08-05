@@ -142,7 +142,7 @@ def explain_patient(new_patient_df, top_n=10):
    # new_patient_df["bmi"] = weight/height
     #new_patient_df.drop(columns="height", inplace=True)
    # new_patient_df.drop(columns="weight", inplace=True)
-    
+    st.write(new_patient_df)
     patient_transformed = preprocessor.transform(new_patient_df)
     print("Transformed patient details: ", patient_transformed)
     
