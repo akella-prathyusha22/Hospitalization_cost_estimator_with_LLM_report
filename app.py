@@ -29,10 +29,6 @@ with st.form("patient_form"):
     num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50)
     
     submitted = st.form_submit_button("Estimate Cost")
-    
-   
-
-    new_patient = pd.DataFrame([new_patient_dict])
 
 if submitted:
     new_patient = pd.DataFrame([{
