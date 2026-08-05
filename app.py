@@ -29,23 +29,24 @@ with st.form("patient_form"):
     num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50)
     
     submitted = st.form_submit_button("Estimate Cost")
+    
+    # ['children', 'hospital_tier','city_tier', 'bmi', 'hba1c',
+# 'heart_issues', 'any_transplants', 'cancer_history', 'numberofmajorsurgeries', 'smoker', 'state_id_R1011', 'state_id_R1012', 'state_id_R1013', 'Age', 'Gender']
 
 if submitted:
     new_patient = pd.DataFrame([{
-        "Age": age,
-        "bmi": bmi,
         "children": num_of_children,
         "hospital_tier": hospital_tier,
         "city_tier": city_tier,
+        "bmi": bmi,
         "hba1c": hba1c,
-        "cancer_history": cancer_history,
-        "any_transplants": any_transplants,
         "heart_issues": heart_issues,
-        "smoker": smoker,
-        "Gender": gender,
-        "numberofmajorsurgeries": num_of_major_surgeries
+        "any_transplants": any_transplants,
+        "cancer_history": cancer_history,
+        "numberofmajorsurgeries": num_of_major_surgeries,
+        "smoker": smoker
     }])
-     # Convert State Id to match the trained model columns
+    # Convert State Id to match the trained model columns
     state_columns = ["state_id_R1011", "state_id_R1012", "state_id_R1013"]
     st.write(state_columns)
     # Add every state_id_* column, default False
@@ -54,7 +55,11 @@ if submitted:
 
     # Set the one the user picked to True
     new_patient[f"state_id_{state_id}"] = True
-
+    
+    # adding the age and gender columns to match the data order
+    new_patient["Age"] = age
+    new_patient["Gender"] = gender
+    
     with st.spinner("Analyzing patient data and generating report..."):
         predicted_cost, contribution_table, report_text = generate_full_report(new_patient)
 
