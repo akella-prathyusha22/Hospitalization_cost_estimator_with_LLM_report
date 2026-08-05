@@ -29,6 +29,10 @@ with st.form("patient_form"):
     num_of_major_surgeries = st.number_input("Number of Major Surgeries", min_value=0, max_value=50)
     
     submitted = st.form_submit_button("Estimate Cost")
+    
+   
+
+    new_patient = pd.DataFrame([new_patient_dict])
 
 if submitted:
     new_patient = pd.DataFrame([{
@@ -37,7 +41,6 @@ if submitted:
         "children": num_of_children,
         "hospital_tier": hospital_tier,
         "city_tier": city_tier,
-        "state_id" : state_id,
         "hba1c": hba1c,
         "cancer_history": cancer_history,
         "any_transplants": any_transplants,
@@ -46,6 +49,15 @@ if submitted:
         "Gender": gender,
         "numberofmajorsurgeries": num_of_major_surgeries
     }])
+     # Convert State Id to match the trained model columns
+    state_columns = ["state_id_R1011", "state_id_R1012", "state_id_R1013"]
+    st.write(state_columns)
+    # Add every state_id_* column, default False
+    for col in state_columns:
+        new_patient[col] = False
+
+    # Set the one the user picked to True
+    new_patient[f"state_id_{state_id}"] = True
 
     with st.spinner("Analyzing patient data and generating report..."):
         predicted_cost, contribution_table, report_text = generate_full_report(new_patient)

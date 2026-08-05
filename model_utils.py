@@ -129,7 +129,7 @@ def explain_patient(new_patient_df, top_n=10):
     if missing_cols:
         st.error(f"Missing columns: {missing_cols}")
         st.write(new_patient_df)
-    
+   
     patient_transformed = preprocessor.transform(new_patient_df)
     print("Transformed patient details: ", patient_transformed)
     
