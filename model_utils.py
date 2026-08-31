@@ -169,30 +169,23 @@ def build_shap_summary_text(contribution_table, raw_patient_dict):
     return patient_info, shap_summary
 
 def build_llm_prompt(predicted_cost, base_value, patient_info, shap_summary):
-    warning = ""
-    # Flag if smoker or high BMI reduced cost (medically unusual)
-    if "smoker: decreased" in shap_summary or "bmi: decreased" in shap_summary:
-        warning = "\nNote: Some factors show counterintuitive effects (e.g., smoking reducing cost). This may indicate data quality issues in the training set. Recommend reviewing model predictions against domain expertise."
-        
     prompt = f"""You are a medical cost analyst explaining a hospitalization cost prediction to a patient in plain, non-technical language.
 
-                Patient details: {patient_info}
+            Patient details: {patient_info}
 
-                Baseline average predicted cost: ${base_value:.2f}
-                Final predicted cost for this patient: ${predicted_cost:.2f}
+            Baseline average predicted cost: ${base_value:.2f}
+            Final predicted cost for this patient: ${predicted_cost:.2f}
 
-                The following factors influenced this patient's predicted cost, based on a machine learning model:
-                {shap_summary}
+            The following factors influenced this patient's predicted cost, based on a machine learning model:
+            {shap_summary}
 
-                Write a short, clear explanation (3-5 sentences) for the patient describing:
-                1. What their estimated hospitalization cost is
-                2. The top 2-3 factors that most influenced this estimate, in plain English
-                3. Whether each factor increased or decreased their cost, and briefly why that makes sense medically
+            Write a short, clear explanation (3-5 sentences) for the patient describing:
+            1. What their estimated hospitalization cost is
+            2. The top 2-3 factors that most influenced this estimate, in plain English
+            3. Whether each factor increased or decreased their cost
 
-                Avoid technical jargon like "SHAP values" or "feature contribution" — write as if explaining to someone with no data science background. Do not give medical advice.""" + warning
+            **IMPORTANT:** Some factors in this list (smoking status, BMI) show counterintuitive effects (decreasing cost). These may represent statistical noise rather than true medical relationships. Focus your explanation on factors that make medical sense. Avoid technical jargon like "SHAP values" or "feature contribution" — write as if explaining to someone with no data science background. Do not give medical advice."""
     
-    st.write("**DEBUG: Prompt sent to LLM**")
-    st.text(prompt)
     return prompt
 
 def generate_report(prompt, max_tokens=500):
