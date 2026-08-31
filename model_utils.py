@@ -146,6 +146,9 @@ def explain_patient(new_patient_df, top_n=10):
         "shap_contribution": combined_shap.astype(float)
     })
     df["abs_contribution"] = df["shap_contribution"].abs()
+    # Debug: print the contribution table
+    st.write("**DEBUG: Top Contributing Factors**")
+    st.write(df)
     df = df.sort_values("abs_contribution", ascending=False).drop(columns="abs_contribution").head(top_n)
 
     return final_prediction, df.reset_index(drop=True), new_patient_df.iloc[0].to_dict()
@@ -162,6 +165,7 @@ def build_shap_summary_text(contribution_table, raw_patient_dict):
 
     patient_info = ", ".join([f"{k}: {v}" for k, v in raw_patient_dict.items()])
     shap_summary = "\n".join(lines)
+    
     return patient_info, shap_summary
 
 def build_llm_prompt(predicted_cost, base_value, patient_info, shap_summary):
