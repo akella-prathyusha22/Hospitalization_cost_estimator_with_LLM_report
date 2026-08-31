@@ -44,6 +44,11 @@ with st.form("patient_form"):
         "tier-3": 2
     }
     
+    binary_mapping = {
+    "yes": 1,
+    "no": 0
+    }
+    
 if submitted:
     new_patient = pd.DataFrame([{
         "children": num_of_children,
@@ -51,11 +56,11 @@ if submitted:
         "city_tier": city_tier_mapping[city_tier],
         "bmi": bmi,
         "hba1c": hba1c,
-        "heart_issues": heart_issues,
-        "any_transplants": any_transplants,
-        "cancer_history": cancer_history,
+        "heart_issues": binary_mapping[heart_issues],
+        "any_transplants": binary_mapping[any_transplants],
+        "cancer_history": binary_mapping[cancer_history],
         "numberofmajorsurgeries": num_of_major_surgeries,
-        "smoker": smoker
+        "smoker": binary_mapping[smoker]
     }])
     
   
