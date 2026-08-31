@@ -46,7 +46,9 @@ with st.form("patient_form"):
     
     binary_mapping = {
     "yes": 1,
-    "no": 0
+    "no": 0,
+    "female": 0,
+    "male": 1
     }
     
 if submitted:
@@ -76,7 +78,7 @@ if submitted:
     
     # adding the age and gender columns to match the data order
     new_patient["Age"] = age
-    new_patient["Gender"] = gender
+    new_patient["Gender"] = binary_mapping[gender]
     
     st.write(new_patient)
     
