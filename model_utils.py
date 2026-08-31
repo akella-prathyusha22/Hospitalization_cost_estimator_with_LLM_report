@@ -125,9 +125,7 @@ def to_scalar(x):
 # 4. Core prediction + SHAP function
 # ---------------------------------------------------------------
 def explain_patient(new_patient_df, top_n=10):   
-    st.write(new_patient_df)
     patient_transformed = preprocessor.transform(new_patient_df)
-    st.write(patient_transformed)
     print("Transformed patient details: ", patient_transformed)
     
     if hasattr(patient_transformed, "toarray"):

@@ -73,6 +73,8 @@ if submitted:
     new_patient["Age"] = age
     new_patient["Gender"] = gender
     
+    st.write(new_patient)
+    
     with st.spinner("Analyzing patient data and generating report..."):
         predicted_cost, contribution_table, report_text = generate_full_report(new_patient)
 
