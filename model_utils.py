@@ -169,6 +169,11 @@ def build_shap_summary_text(contribution_table, raw_patient_dict):
     return patient_info, shap_summary
 
 def build_llm_prompt(predicted_cost, base_value, patient_info, shap_summary):
+    warning = ""
+    # Flag if smoker or high BMI reduced cost (medically unusual)
+    if "smoker: decreased" in shap_summary or "bmi: decreased" in shap_summary:
+        warning = "\nNote: Some factors show counterintuitive effects (e.g., smoking reducing cost). This may indicate data quality issues in the training set. Recommend reviewing model predictions against domain expertise."
+        
     prompt = f"""You are a medical cost analyst explaining a hospitalization cost prediction to a patient in plain, non-technical language.
 
                 Patient details: {patient_info}
@@ -184,7 +189,7 @@ def build_llm_prompt(predicted_cost, base_value, patient_info, shap_summary):
                 2. The top 2-3 factors that most influenced this estimate, in plain English
                 3. Whether each factor increased or decreased their cost, and briefly why that makes sense medically
 
-                Avoid technical jargon like "SHAP values" or "feature contribution" — write as if explaining to someone with no data science background. Do not give medical advice."""
+                Avoid technical jargon like "SHAP values" or "feature contribution" — write as if explaining to someone with no data science background. Do not give medical advice.""" + warning
     
     st.write("**DEBUG: Prompt sent to LLM**")
     st.text(prompt)
