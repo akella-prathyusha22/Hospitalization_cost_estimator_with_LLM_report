@@ -68,7 +68,7 @@ if submitted:
   
     # Convert State Id to match the trained model columns
     state_columns = ["state_id_R1011", "state_id_R1012", "state_id_R1013"]
-    st.write(state_columns)
+
     # Add every state_id_* column, default False
     for col in state_columns:
         new_patient[col] = False
@@ -80,7 +80,6 @@ if submitted:
     new_patient["Age"] = age
     new_patient["Gender"] = binary_mapping[gender]
     
-    st.write(new_patient)
     
     with st.spinner("Analyzing patient data and generating report..."):
         predicted_cost, contribution_table, report_text = generate_full_report(new_patient)

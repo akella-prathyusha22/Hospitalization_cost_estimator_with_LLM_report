@@ -146,9 +146,6 @@ def explain_patient(new_patient_df, top_n=10):
         "shap_contribution": combined_shap.astype(float)
     })
     df["abs_contribution"] = df["shap_contribution"].abs()
-    # Debug: print the contribution table
-    st.write("**DEBUG: Top Contributing Factors**")
-    st.write(df)
     df = df.sort_values("abs_contribution", ascending=False).drop(columns="abs_contribution").head(top_n)
 
     return final_prediction, df.reset_index(drop=True), new_patient_df.iloc[0].to_dict()
