@@ -30,14 +30,25 @@ with st.form("patient_form"):
     
     submitted = st.form_submit_button("Estimate Cost")
     
-    # ['children', 'hospital_tier','city_tier', 'bmi', 'hba1c',
-# 'heart_issues', 'any_transplants', 'cancer_history', 'numberofmajorsurgeries', 'smoker', 'state_id_R1011', 'state_id_R1012', 'state_id_R1013', 'Age', 'Gender']
 
+  # Create mapping for the hospital and city tiers
+    hospital_tier_mapping = {
+    "tier-1": 0,
+    "tier-2": 1,
+    "tier-3": 2
+    }
+
+    city_tier_mapping = {
+        "tier-1": 0,
+        "tier-2": 1,
+        "tier-3": 2
+    }
+    
 if submitted:
     new_patient = pd.DataFrame([{
         "children": num_of_children,
-        "hospital_tier": hospital_tier,
-        "city_tier": city_tier,
+        "hospital_tier": hospital_tier_mapping[hospital_tier],
+        "city_tier": city_tier_mapping[city_tier],
         "bmi": bmi,
         "hba1c": hba1c,
         "heart_issues": heart_issues,
@@ -46,6 +57,8 @@ if submitted:
         "numberofmajorsurgeries": num_of_major_surgeries,
         "smoker": smoker
     }])
+    
+  
     # Convert State Id to match the trained model columns
     state_columns = ["state_id_R1011", "state_id_R1012", "state_id_R1013"]
     st.write(state_columns)
